@@ -17,15 +17,15 @@ namespace NeelAngular4CRUD.Controllers
         {
             _context = context;
         }
-
-        // GET: api/Employees
+     
+        [Route("~/api/GetAllEmployees")]
         [HttpGet]
         public IEnumerable<Employees> GetEmployees()
         {
             return _context.Employees;
         }
-
-        // GET: api/Employees/5
+       
+        [Route("~/api/GetEmployee")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetEmployees([FromRoute] long id)
         {
@@ -43,20 +43,14 @@ namespace NeelAngular4CRUD.Controllers
 
             return Ok(employees);
         }
-
-        // PUT: api/Employees/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutEmployees([FromRoute] long id, [FromBody] Employees employees)
+           
+        [Route("~/api/UpdateEmployee")]
+        public async Task<IActionResult> PutEmployees([FromBody] Employees employees)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
-            }
-
-            if (id != employees.StudentId)
-            {
-                return BadRequest();
-            }
+            }          
 
             _context.Entry(employees).State = EntityState.Modified;
 
@@ -66,20 +60,13 @@ namespace NeelAngular4CRUD.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!EmployeesExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                
             }
 
             return NoContent();
         }
-
-        // POST: api/Employees
+            
+        [Route("~/api/AddEmployee")]
         [HttpPost]
         public async Task<IActionResult> PostEmployees([FromBody] Employees employees)
         {
@@ -93,8 +80,8 @@ namespace NeelAngular4CRUD.Controllers
 
             return CreatedAtAction("GetEmployees", new { id = employees.StudentId }, employees);
         }
-
-        // DELETE: api/Employees/5
+       
+        [Route("~/api/DeleteEmployee/{id}")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEmployees([FromRoute] long id)
         {
